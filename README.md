@@ -9,6 +9,6 @@ Node.js was chosen for this project because of these qualities and also due to i
 To use deploy an instance of API-Playground you need to have installed node.js >= 18.17.1 on your deployment host:
 
 - nodejs.org/en : Download the latest stable release here.
-- 
+- git clone 
 
 
