@@ -9,6 +9,13 @@ Node.js was chosen for this project because of these qualities and also due to i
 To use deploy an instance of API-Playground you need to have installed node.js >= 18.17.1 on your deployment host:
 
 - nodejs.org/en : Download the latest stable release here.
-- git clone 
+- git clone https://github.com/Rich-Sec/API-Playground.git
+- cd API-Playground
+- node install
+
+# Usage:
+- node index.js : Start the program
+- By default API-Playground will run on port 3000/tcp unless the evironment variable "PORT" is set to something else.
+- Requests to the API should be made to localhost:<PORT> if hosted on the localsystem, or <IP>:<PORT> if hosted on an internal network. (!WARNING This API is intentionally vulnerable and should not be modified to store or process sensitive information, please use at your own risk!)
 
 
