@@ -25,7 +25,7 @@ const courses =[
 ];
 
 app.get('/', (req,res) =>{
-    res.send('Hello World :)');
+    res.send('<h1>Welcome to the API Playground</h1>');
 });
 
 app.get('/api/courses', (req, res) =>{
