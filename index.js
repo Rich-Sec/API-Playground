@@ -20,27 +20,31 @@ let hostname = '127.0.0.1'
  })
 */
 
-const courses =[
-    {id:1, name: 'course1'},
-    {id:2, name: 'course2'},
-    {id:3, name: 'course3'}
+const accounts =[
+    {id:1, name: 'Jeff', balance: '£2,000,000.01', sortcode: '10-34-22', accountNum: '1643520344'},
+    {id:2, name: 'Simon', balance: '£1,234,342.45', sortcode: '10-23-25', accountNum: '164399235'},
+    {id:3, name: 'user', balance: '£-50324.54', sortcode: '10-44-77', accountNum: '164399954'}
 ];
 
 app.get('/', (req,res) =>{
-    res.sendFile(path.join(__dirname, '/index.html'));
+    res.sendFile(path.join(__dirname, '/static/index.html'));
 });
 
-app.get('/api/courses', (req, res) =>{
-    res.send(courses);
+app.get('/broken_object_level_access', (req,res) =>{
+    res.sendFile(path.join(__dirname, '/static/broken_object_level_access.html'));
+})
+
+app.get('/api/accounts', (req, res) =>{
+    res.send(accounts);
 });
 
-app.get('/api/courses/:id', (req,res) =>{
-    const course = courses.find(c => c.id === parseInt(req.params.id));
-    if (!course){ // 404 Response
-        res.status(404).send('Course not found :(');
+app.get('/api/accounts/:id', (req,res) =>{
+    const account = accounts.find(c => c.id === parseInt(req.params.id));
+    if (!account){ // 404 Response
+        res.status(404).send('account not found :(');
     }
     else{
-        res.send(course);
+        res.send(account);
     }
 })
 
@@ -49,64 +53,67 @@ app.get('/api/posts/:year/:month', (req,res) =>{
     // res.send(req.query); // Return the query string parameters, query string parameters are used to provide additional data to backend services.
 })
 
-app.post('/api/courses', (req,res) =>{
+app.post('/api/accounts', (req,res) =>{
       
-    // Validate the the course exists.
-    const { error } = validateCourse(req.body); // result.error (Object deconstruction syntax.)
+    // Validate the the account exists.
+    const { error } = validateAccount(req.body); // result.error (Object deconstruction syntax.)
     if (error){
         return res.status(400).send(error.details[0].message);
     }
     
-    const course = {
-        id: courses.length + 1,
-        name: req.body.name
+    const account = {
+        id: accounts.length + 1,
+        name: req.body.name,
+        balance: "0.00",
+        sortcode: '10-41-51',
+        accountNum: '1643888234'
     };
-    courses.push(course);
-    res.send(course);
+    accounts.push(account);
+    res.send(account);
 });
 
-app.put('/api/courses/:id', (req, res) =>{
+app.put('/api/accounts/:id', (req, res) =>{
 
-    // Lookup course to update
-    const course = courses.find(c => c.id === parseInt(req.params.id));
-    if (!course){ 
-        return res.status(404).send('Course not found :(');
+    // Lookup account to update
+    const account = accounts.find(c => c.id === parseInt(req.params.id));
+    if (!account){ 
+        return res.status(404).send('account not found :(');
     }
 
-    // Validate the the course exists.
-    const { error } = validateCourse(req.body); // result.error (Object deconstruction.)
+    // Validate the the account exists.
+    const { error } = validateaccount(req.body); // result.error (Object deconstruction.)
     if (error){
         return res.status(400).send(error.details[0].message);
     }
     
-    course.name = req.body.name;
-    res.send(course);
-    // Otherwise validate course , if invalid then 400 otherwise update the course and return it to the client.  
+    account.name = req.body.name;
+    res.send(account);
+    // Otherwise validate account , if invalid then 400 otherwise update the account and return it to the client.  
 })
 
-app.delete('/api/courses/:id', (req, res) => {
+app.delete('/api/accounts/:id', (req, res) => {
 
-    const course = courses.find(c => c.id === parseInt(req.params.id));
-    if (!course){ 
-        res.status(404).send('Course not found :(');
+    const account = accounts.find(c => c.id === parseInt(req.params.id));
+    if (!account){ 
+        res.status(404).send('account not found :(');
     }
 
     // Delete
-    const index = courses.indexOf(course);
-    courses.splice(index, 1);
+    const index = accounts.indexOf(account);
+    accounts.splice(index, 1);
 
-    res.send(course);
-    // Return the same course
+    res.send(account);
+    // Return the same account
 })
 
  // Joi schema input validation: https://www.npmjs.com/package/joi
-function validateCourse(course){
-      // Validate that course exists.
+function validateAccount(account){
+      // Validate that account exists.
       const schema = Joi.object({
         name: Joi.string().min(3).required()
     });
 
-    return schema.validate(course);
+    return schema.validate(account);
 }
 
 app.listen(port, hostname, () => console.log(`Listening on port ${port}...`));
