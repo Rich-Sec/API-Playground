@@ -1,5 +1,7 @@
 const Joi = require('joi');
 const express = require('express');
+const path = require('path');
+
 const app = express();
 
 app.use(express.json()); // Add middleware to use JSON processing pipeline. Used for parsing JSON objects.
@@ -25,7 +27,7 @@ const courses =[
 ];
 
 app.get('/', (req,res) =>{
-    res.send('<h1>Welcome to the API Playground</h1>');
+    res.sendFile(path.join(__dirname, '/index.html'));
 });
 
 app.get('/api/courses', (req, res) =>{
